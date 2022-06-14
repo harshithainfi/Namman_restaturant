@@ -1,0 +1,81 @@
+
+<ul>
+  <li><%= link_to "Close/Open", restaurant_path(@restaurant), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  } %></li>
+</ul>
+
+<h2>Add a dish:</h2>
+<%= form_with model: [ @restaurant, @restaurant.dishes.build ] do |form| %>
+  <p>
+    <%= form.label :name %><br>
+    <%= form.text_field :name %>
+  </p>
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
+<h2>Add a Review:</h2>
+<%= form_with model: [ @restaurant, @restaurant.reviews.build ] do |form| %>
+  <p>
+    <%= form.label :review %><br>
+    <%= form.text_field :review %>
+  </p>
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
+  <%= link_to "Dowload Dishes",download_restaurants_restaurants_path(:id => @restaurant.id) %>
+  <%= form_tag(  search_dishes_restaurants_path, method: :get) do %>
+  <%= text_field_tag(:search_restaurants, params[:search]) %>
+<%= hidden_field_tag 'restaurant_id', "#{@restaurant.id}"  %>
+  <%= submit_tag("Search") %>
+<% end %>
+  
+<div class="row">
+  <div class="col-md-12">
+    <h2>Dishes</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @dishes.each_with_index do |dish, idx| %>
+      <tr>
+          <td><%= idx %></td>
+         <td><%= dish.name %></td>
+      </tr>
+     <% end %> 
+    </tbody>
+  </table>
+ </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h2>Reviews</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Review</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @restaurant.reviews.each_with_index do |review, idx| %>
+      <tr>
+          <td><%= idx %></td>
+         <td><%= review.review %></td>
+      </tr>
+     <% end %> 
+    </tbody>
+  </table>
+ </div>
+</div>
+
+
+
